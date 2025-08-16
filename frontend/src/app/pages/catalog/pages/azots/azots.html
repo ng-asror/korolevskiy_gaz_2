@@ -1,28 +1,14 @@
-<app-azot-block></app-azot-block>
+<app-azot-block [azot]="azotInfo()!"></app-azot-block>
 <div class="grid grid-cols-4 gap-[6px] my-[12px]">
-	<a routerLink=""
-		class="bg-blue-500/75 bg-gradient flex leading-[100%] items-center justify-center rounded-[5px] p-[10px] w-full h-auto text-blue-700">10
-		л</a>
-	<a routerLink=""
-		class="bg-blue-500/75 flex leading-[100%] items-center justify-center rounded-[5px] p-[10px] w-full h-auto text-[#ffff]">10
-		л</a>
-	<a routerLink=""
-		class="bg-blue-500/75 flex leading-[100%] items-center justify-center rounded-[5px] p-[10px] w-full h-auto text-[#ffff]">10
-		л</a>
-	<a routerLink=""
-		class="bg-blue-500/75 flex leading-[100%] items-center justify-center rounded-[5px] p-[10px] w-full h-auto text-[#ffff]">10
-		л</a>
-	<a routerLink=""
-		class="bg-blue-500/75 flex leading-[100%] items-center justify-center rounded-[5px] p-[10px] w-full h-auto text-[#ffff]">10
-		л</a>
-	<a routerLink=""
-		class="bg-blue-500/75 flex leading-[100%] items-center justify-center rounded-[5px] p-[10px] w-full h-auto text-[#ffff]">10
+	<a routerLink="/catalog/azots" [queryParams]="{'liter': item.id}" queryParamsHandling="merge"
+		(click)="selectAzot(item.id)" routerLinkActive="bg-gradient text-black" *ngFor="let item of liters$ | async"
+		class="bg-blue-500/75 text-[#fff] flex leading-[100%] items-center justify-center rounded-[5px] p-[10px] w-full h-auto">10
 		л</a>
 </div>
 
 <div class="grid grid-cols-2 gap-[6px]">
-	<button type="button"
-		class="bg-blue-500/75 p-[20px] cursor-pointer leading-[100%] rounded-[5px] text-[#fff]">Обменять</button>
-	<button type="button"
-		class="bg-blue-500/75 p-[20px] cursor-pointer leading-[100%] rounded-[5px] text-[#fff]">Купить</button>
+	<ng-container *ngIf="azotInfo()">
+		<button type="button" *ngFor="let item of azotInfo()?.data!.price_types"
+			class="bg-blue-500/75 p-[20px] cursor-pointer leading-[100%] rounded-[5px] text-[#fff]">{{item.name}}</button>
+	</ng-container>
 </div>

@@ -1,20 +1,17 @@
+@let azot = azotInfo().data;
 <div class="bg-blue-500/75 rounded-[10px] overflow-hidden mt-[20px]">
 	<div class="bg-[#E9E4E0] w-full min-h-[373px] rounded-[10px] flex gap-x-[10px] overflow-hidden pr-[10px]">
 		<div class="py-[43px_30px] pl-[20px] w-full grid grid-rows-[auto_1fr]">
 			<div>
-				<h1 class="text-black text-[20px] font-[500] mb-[5px]">Пищевая закись азота</h1>
+				<h1 class="text-black text-[20px] font-[500] mb-[5px]">{{azot.title}}</h1>
 				<button type="button" (click)="desc.set(true)"
 					class="cursor-pointer bg-gradient p-[5px_15px] text-black rounded-[5px] text-[14px] leading-[100%]">
 					Подробнее о товаре</button>
 			</div>
 			<div class="flex items-end gap-x-[15px]">
-				<div>
-					<p class="leading-[100%] text-[#8A8A8A] text-[14px] mb-[5px]">Покупка</p>
-					<h1 class="text-[16px] font-[500] leading-[100%]">14 000 ₽</h1>
-				</div>
-				<div>
-					<p class="leading-[100%] text-[#8A8A8A] text-[14px] mb-[5px]">Покупка</p>
-					<h1 class="text-[16px] font-[500] leading-[100%]">14 000 ₽</h1>
+				<div *ngFor="let item of azot.price_types">
+					<p class="leading-[100%] text-[#8A8A8A] text-[14px] mb-[5px]">{{item.name}}</p>
+					<h1 class="text-[16px] font-[500] leading-[100%]">{{item.price}} ₽</h1>
 				</div>
 			</div>
 		</div>

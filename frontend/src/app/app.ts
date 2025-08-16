@@ -18,20 +18,18 @@ export class App implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.telegram.init('#3f00ff');
-    const tg_id = await this.telegram.getCloudStorage('tg_id');
-    console.log(tg_id);
-
-    this.auth();
+    const isLoggedIn = await this.loginService.isLoggedIn();
+    if (!isLoggedIn) {
+      await this.auth();
+    }
   }
 
   private async auth(): Promise<void> {
-    if (await this.loginService.isLoggedIn()) {
-      firstValueFrom(
-        this.loginService.login({
-          tg_id: String(this.telegram.getTgUser().user.id),
-          username: this.telegram.getTgUser().user.username,
-        })
-      );
-    }
+    firstValueFrom(
+      this.loginService.login({
+        tg_id: String(this.telegram.getTgUser().user.id),
+        username: this.telegram.getTgUser().user.username,
+      })
+    );
   }
 }

@@ -1,5 +1,9 @@
 @import "tailwindcss";
-
+* {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
 body {
   background-color: #3f00ff;
 }
@@ -9,4 +13,8 @@ body {
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.bg-gradient {
+  background: linear-gradient(270deg, #fecc68 0%, #f9d98a 100%);
 }

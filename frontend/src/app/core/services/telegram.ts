@@ -18,6 +18,10 @@ export class Telegram {
     this.tg.enableClosingConfirmation();
   }
 
+  hapticFeedback(type: 'light' | 'medium' | 'heavy' | 'rigid' | 'soft'): void {
+    this.tg.HapticFeedback.impactOccurred(type);
+  }
+
   // This method sets a custom keyboard for Telegram Web App.
   async setCloudItem(key: string, value: string): Promise<void> {
     return new Promise((resolve, reject) => {

@@ -1,7 +1,30 @@
-<div class="flex items-center justify-between container pt-[15px]">
-	<a routerLink="/home" class="block">
-		<img src="images/logo.png" alt="logo icon" width="81" height="44" class="block">
-	</a>
-	<a routerLink="/home" class="text-[24px] font-bold txt-liner">Бесплатная доставка</a>
-	<div></div>
-</div>
+<main class="w-full h-screen">
+	<div class="flex items-center justify-between container py-[10px]">
+		<a routerLink=" /home" class="block">
+			<img src="images/logo.png" alt="logo icon" width="81" height="44" class="block">
+		</a>
+		<a routerLink="/home" class="text-[24px] font-bold txt-liner">Бесплатная доставка</a>
+		<div></div>
+	</div>
+	<div class="content px-[10px]">
+		<router-outlet></router-outlet>
+	</div>
+	<section id="menubar" class="flex w-full gap-x-[1px]">
+		<a (click)="soft()" routerLink="/catalog" routerLinkActive="bg-gradient"
+			class="flex-1 py-[10px] bg-[#E9E4E0] rounded-tl-[15px] flex items-center justify-center flex-col gap-y-[2px]">
+			<img src="svg/water.svg" alt="water svg" width="13.549" height="23.227" />
+			<span class="text-[14px] font-normal text-blue-700">Каталог</span>
+		</a>
+		<a (click)="soft()" [routerLink]="'/basket/'" routerLinkActive="bg-gradient"
+			class="bg-[#E9E4E0] flex-1 py-[10px] flex items-center justify-center relative flex-col gap-y-[2px]">
+			<img src="svg/basket.svg" alt="basket svg" width="21" height="21" />
+			<span class="absolute text-white p-[4px] bg-[red] top-[5px] right-[5px] text-[10px] rounded">10</span>
+			<span class="text-[14px] font-normal text-blue-700">Корзина</span>
+		</a>
+		<a (click)="soft()" routerLink="/orders" routerLinkActive="bg-gradient"
+			class="bg-[#E9E4E0] flex-1 py-[10px] flex items-center justify-center rounded-tr-[15px] flex-col gap-y-[2px]">
+			<img src="svg/order.svg" alt="water svg" width="21" height="21" />
+			<span class="text-[14px] font-normal text-blue-700">Заказы</span>
+		</a>
+	</section>
+</main>

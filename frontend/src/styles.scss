@@ -7,6 +7,9 @@
 body {
   background-color: #3f00ff;
 }
+html {
+  scroll-behavior: smooth;
+}
 
 .txt-liner {
   background: linear-gradient(180deg, #f9ef91 0%, #f6c600 100%);

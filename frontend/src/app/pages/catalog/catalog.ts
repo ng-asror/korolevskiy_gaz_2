@@ -7,4 +7,4 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
   templateUrl: './catalog.html',
   styleUrl: './catalog.scss',
 })
-export class Home {}
+export class Catalog {}

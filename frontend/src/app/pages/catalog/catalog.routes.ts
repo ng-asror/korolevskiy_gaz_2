@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 export const catalogRoutes: Routes = [
   {
     path: 'catalog',
-    loadComponent: () => import('./catalog').then((m) => m.Home),
+    loadComponent: () => import('./catalog').then((m) => m.Catalog),
     children: [
       {
         path: 'azots',
@@ -18,7 +18,7 @@ export const catalogRoutes: Routes = [
         loadComponent: () => import('./pages').then((c) => c.Buyout),
       },
       {
-        path: '**',
+        path: '',
         redirectTo: 'azots',
         pathMatch: 'full',
       },

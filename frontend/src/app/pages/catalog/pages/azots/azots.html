@@ -2,12 +2,12 @@
 <div class="grid grid-cols-4 gap-[6px] my-[12px]">
 	<a routerLink="/catalog/azots" [queryParams]="{'liter': item.id}" queryParamsHandling="merge"
 		(click)="selectAzot(item.id)" routerLinkActive="bg-gradient text-black" *ngFor="let item of liters$ | async"
-		class="bg-[#2D2D30] text-[#fff] flex leading-[100%] items-center justify-center rounded-[5px] p-[10px] w-full h-auto">10
+		class="bg-[#E9E4E0] text-black flex leading-[100%] items-center justify-center rounded-[5px] p-[10px] w-full h-auto">10
 		л</a>
 </div>
 <div class="grid grid-cols-2 gap-[6px]">
 	<ng-container *ngIf="azotInfo()">
 		<button type="button" *ngFor="let item of azotInfo()?.data!.price_types"
-			class="bg-[#2D2D30] px-[10px] h-[46px] cursor-pointer leading-[100%] rounded-[5px] text-[#fff]">{{item.name}}</button>
+			class="bg-[#E9E4E0] px-[10px] h-[46px] cursor-pointer leading-[100%] rounded-[5px] text-black">{{item.name}}</button>
 	</ng-container>
 </div>

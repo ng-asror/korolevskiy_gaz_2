@@ -17,7 +17,7 @@ export class App implements OnInit {
   protected readonly title = signal('frontend');
 
   async ngOnInit(): Promise<void> {
-    this.telegram.init('#3f00ff');
+    this.telegram.init('#fecc68');
     const isLoggedIn = await this.loginService.isLoggedIn();
     if (!isLoggedIn) {
       await this.auth();

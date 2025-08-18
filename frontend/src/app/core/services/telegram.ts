@@ -10,6 +10,10 @@ export class Telegram {
   getTgUser(): ITgUser {
     return this.tg.initDataUnsafe;
   }
+  async getUserLocalId(): Promise<string> {
+    const id = await this.getCloudStorage('tg_id');
+    return id;
+  }
 
   init(headerColor: string): void {
     this.tg.ready();

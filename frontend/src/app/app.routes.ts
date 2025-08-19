@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
-import { catalogRoutes } from './pages/catalog/catalog.routes';
-import { basketRoutes } from './pages/basket/basket.routes';
+import { catalogRoutes } from './modules/catalog/catalog.routes';
+import { basketRoutes } from './modules/basket/basket.routes';
+import { ordersRoutes } from './modules/orders/orders.routes';
 
 export const routes: Routes = [
   {
@@ -9,6 +10,7 @@ export const routes: Routes = [
     children: [
       ...catalogRoutes,
       ...basketRoutes,
+      ...ordersRoutes,
       {
         path: '',
         redirectTo: 'catalog',

@@ -26,4 +26,19 @@ export class Accessor {
       { tg_id, product_id }
     );
   }
+
+  minus(
+    tg_id: string,
+    product_id: string,
+    price_type_id: number
+  ): Observable<any> {
+    return this.http.post<any>(
+      `${environment.url}/public/cart/minus/accessuary`,
+      {
+        tg_id,
+        price_type_id,
+        product_id,
+      }
+    );
+  }
 }

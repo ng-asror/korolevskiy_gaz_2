@@ -30,4 +30,23 @@ export class AzotsService {
   getAzotInfo(id: number): Observable<IAzot> {
     return this.http.get<IAzot>(`${environment.url}/${this.endpoint}/${id}`);
   }
+
+  kupit(tg_id: string, product_id: string): Observable<any> {
+    return this.http.post<any>(`${environment.url}/public/cart/add/azot`, {
+      tg_id,
+      product_id,
+    });
+  }
+
+  minus(
+    tg_id: string,
+    product_id: string,
+    price_type_id: number
+  ): Observable<any> {
+    return this.http.post<any>(`${environment.url}/public/cart/minus/azot`, {
+      tg_id,
+      price_type_id,
+      product_id,
+    });
+  }
 }

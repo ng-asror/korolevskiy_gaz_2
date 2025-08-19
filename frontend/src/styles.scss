@@ -9,6 +9,7 @@ body {
 }
 html {
   scroll-behavior: smooth;
+  user-select: none;
 }
 
 .txt-liner {
@@ -20,4 +21,27 @@ html {
 
 .bg-gradient {
   background: linear-gradient(270deg, #fecc68 0%, #f9d98a 100%);
+}
+
+input[type="checkbox"] {
+  appearance: none;
+  background-color: white;
+  &.big {
+    background: url("../public/svg/check-gray.svg") no-repeat;
+    background-size: 100%;
+  }
+  &:checked {
+    background: url("../public/svg/check-card.svg") no-repeat;
+    background-size: 100%;
+  }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }

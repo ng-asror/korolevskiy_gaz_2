@@ -1,1 +1,2 @@
-export * from './prduct-card/prduct-card';
+export * from './azot/azot';
+export * from './aksessuar/aksessuar';

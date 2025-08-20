@@ -1,0 +1,35 @@
+<ng-container *ngIf="azotState() as azot">
+	<div class="flex items-center gap-x-[15px] order-item">
+		<div class="relative">
+			<input type="checkbox" [checked]="isChecked(azot.product_id)"
+				(change)="toggleItem(azot.product_id, 'azot' ,$event)"
+				class="absolute top-[-2px] border-2 w-[23px] h-[23px] left-[-2px] rounded-[5px] border-[2px] border-[#E9E4E0]">
+			<div class="bg-white rounded-[10px] overflow-hidden flex justify-center w-[110px] h-[96px]">
+				<img [src]="azot.product.image_url" alt="butilka" class="block w-full h-[100%] object-cover object-top">
+			</div>
+		</div>
+		<div>
+			<span class="text-[12px] opacity-50">{{azot.price_type}}, {{azot.product.type}}</span>
+			<h3 class="text-[14px] font-medium text-black">{{azot.name}}</h3>
+			<h1 class="text-[18px] font-medium text-black">{{azot.price}} ₽</h1>
+			<div class="flex items-center justify-between gap-x-[5px] mt-[10px]">
+				<div class="flex items-center gap-[5px] w-full max-w-[150px]">
+					<button type="button" (click)="minus()"
+						class="w-[25px] h-[25px] cursor-pointer shrink-[0] items-center bg-[#D9D9D9] justify-center rounded-[3px] p-[7px]">
+						<img src="svg/minus.svg" alt="minus icon" class="w-full">
+					</button>
+					<input type="number" #qty
+						class="w-full h-[25px] bg-[#D9D9D9] text-black rounded-[3px] text-[16px] px-[3px] text-center outline-[0]"
+						[value]="azot.quantity" readonly>
+					<button type="button" (click)="plus()"
+						class="w-[25px] h-[25px] cursor-pointer shrink-[0] bg-gradient items-center justify-center rounded-[3px] p-[7px]">
+						<img src="svg/plus.svg" alt="plus icon" class="w-full">
+					</button>
+				</div>
+				<button type="button" class="w-[24px] cursor-pointer h-[24px]">
+					<img src="svg/delete.svg" alt="delete svg" class="w-full">
+				</button>
+			</div>
+		</div>
+	</div>
+</ng-container>

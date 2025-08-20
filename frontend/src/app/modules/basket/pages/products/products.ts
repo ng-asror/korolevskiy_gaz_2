@@ -1,21 +1,24 @@
-import { AsyncPipe, CommonModule, NgForOf, NgIf } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import {
   AfterViewInit,
   Component,
+  effect,
   ElementRef,
   inject,
   OnInit,
   resource,
+  signal,
   ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Basket, Telegram } from '../../../../core';
 import { firstValueFrom } from 'rxjs';
 import { IBasket } from '../../../../core/interfaces';
+import { Azot, Aksessuar } from '../../components';
 
 @Component({
   selector: 'app-products',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, Azot, Aksessuar],
   templateUrl: './products.html',
   styleUrl: './products.scss',
 })
@@ -23,11 +26,18 @@ export class Products implements OnInit, AfterViewInit {
   private telegram = inject(Telegram);
   private basketService = inject(Basket);
 
-  orderDataIds = {
-    azot: [] as string[],
-    aksessuari: [] as string[],
-  };
+  protected localBasket = signal<IBasket | undefined>(undefined);
+  protected quantity = this.basketService.quantity();
 
+  constructor() {
+    effect(() => {
+      const value = this.basket.value()!;
+      if (value) {
+        this.localBasket.set(value);
+      }
+    });
+  }
+  private orderDataIds!: { azot: number[]; aksessuari: number[] };
   basket = resource({
     loader: async () => {
       const tg_id = await this.telegram.getUserLocalId();
@@ -37,22 +47,25 @@ export class Products implements OnInit, AfterViewInit {
 
   @ViewChild('allChecked') selectorAllCheked!: ElementRef;
   allChecked: boolean = false;
-  selectedItems: string[] = [];
+  selectedItems = signal<number[]>([]);
 
-  isChecked(value: string): boolean {
-    return this.selectedItems.includes(value);
-  }
-  toggleItem(value: string, category: 'azot' | 'aksessuari', event: Event) {
-    const isChecked = (event.target as HTMLInputElement).checked;
-
+  protected onToggled(event: {
+    id: number;
+    productType: 'azot' | 'aksessuari';
+    event: Event;
+  }): void {
+    console.log(event);
+    const isChecked = (event.event.target as HTMLInputElement).checked;
     if (isChecked) {
-      this.selectedItems.push(value);
-      this.orderDataIds[category].push(value);
+      this.selectedItems().push(event.id);
+      this.orderDataIds[event.productType].push(event.id);
     } else {
-      this.selectedItems = this.selectedItems.filter((v) => v !== value);
-      this.orderDataIds[category] = this.orderDataIds[category].filter(
-        (v) => v !== value
+      this.selectedItems.set(
+        this.selectedItems().filter((v) => v !== event.id)
       );
+      this.orderDataIds[event.productType] = this.orderDataIds[
+        event.productType
+      ].filter((v) => v !== event.id);
     }
   }
 
@@ -61,23 +74,22 @@ export class Products implements OnInit, AfterViewInit {
   toggleAllChecked() {
     if (this.allChecked) {
       this.orderDataIds = {
-        azot: this.basket
-          .value()!
-          .data.azots.map((item) => item.product_id.toString()),
+        azot: this.basket.value()!.data.azots.map((item) => item.product_id),
         aksessuari: this.basket
           .value()!
-          .data.accessories.map((item) => item.product_id.toString()),
+          .data.accessories.map((item) => item.product_id),
       };
-      this.selectedItems = [
+      this.selectedItems.set([
         ...this.orderDataIds.azot,
         ...this.orderDataIds.aksessuari,
-      ];
+      ]);
+      console.log(this.selectedItems());
     } else {
       this.orderDataIds = {
         azot: [],
         aksessuari: [],
       };
-      this.selectedItems = [];
+      this.selectedItems.set([]);
     }
   }
 

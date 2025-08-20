@@ -6,7 +6,7 @@ export interface IBasket {
 export interface IBasketData {
   azots: IBasketAzot[];
   accessories: IBasketAccessory[];
-  services: any[];
+  services: IBasketService[];
   total_price: number;
 }
 
@@ -16,11 +16,36 @@ export interface IBasketAzot {
   price_type: string;
   price: string;
   quantity: number;
+  product: IProduct;
 }
 
 export interface IBasketAccessory {
   product_id: number;
-  name: any;
+  name: string | null;
   price: string;
   quantity: number;
+  product: IProduct;
+}
+
+export interface IBasketService {
+  product_id: number;
+  name: string | null;
+  price: string;
+  quantity: number;
+  product: IProduct;
+}
+
+export interface IProduct {
+  quantity: number;
+  id: number;
+  title: string;
+  type?: string;
+  price?: string;
+  image: string;
+  description: string;
+  country?: string;
+  status: string;
+  created_at: string;
+  updated_at: string;
+  image_url: string;
 }

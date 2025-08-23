@@ -1,6 +1,6 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, resource, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Telegram } from './core';
+import { Basket, Telegram } from './core';
 import { Login } from './core/services/login';
 import { firstValueFrom } from 'rxjs';
 
@@ -13,8 +13,9 @@ import { firstValueFrom } from 'rxjs';
 export class App implements OnInit {
   private telegram = inject(Telegram);
   private loginService = inject(Login);
+  private basketService = inject(Basket);
 
-  protected readonly title = signal('frontend');
+  protected readonly title = signal('Королевский газ');
 
   async ngOnInit(): Promise<void> {
     this.telegram.init('#fecc68');
@@ -22,6 +23,8 @@ export class App implements OnInit {
     if (!isLoggedIn) {
       await this.auth();
     }
+    const tg_id = await this.telegram.getUserLocalId();
+    await firstValueFrom(this.basketService.getBasket(tg_id));
   }
 
   private async auth(): Promise<void> {

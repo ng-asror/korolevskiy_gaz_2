@@ -1,7 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
-import { Observable, tap } from 'rxjs';
-import { IBasket } from '../interfaces';
+import {
+  BehaviorSubject,
+  firstValueFrom,
+  Observable,
+  Subject,
+  tap,
+} from 'rxjs';
+import { IBasket, ILocalBasket } from '../interfaces';
 import { environment } from '../../../environments/environment.development';
 
 @Injectable({
@@ -9,8 +15,8 @@ import { environment } from '../../../environments/environment.development';
 })
 export class Basket {
   constructor(private http: HttpClient) {}
-
-  quantity = signal<number>(0);
+  private localBasket = new BehaviorSubject<ILocalBasket | null>(null);
+  localBasket$ = this.localBasket.asObservable();
 
   getBasket(tg_id: string): Observable<IBasket> {
     return this.http
@@ -25,8 +31,13 @@ export class Basket {
             (sum, item) => sum + item.quantity,
             0
           );
-
-          this.quantity.set(accessoriesCount + azotCount);
+          const currentBasket = this.localBasket.getValue();
+          this.localBasket.next({
+            azots: res.data.azots,
+            accessories: res.data.accessories,
+            total_count: accessoriesCount + azotCount,
+            total_price: res.data.total_price,
+          });
         })
       );
   }

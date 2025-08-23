@@ -1,24 +1,20 @@
-import { CommonModule, NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   Component,
-  effect,
   ElementRef,
   inject,
   OnInit,
-  resource,
   signal,
   ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Basket, Telegram } from '../../../../core';
-import { firstValueFrom } from 'rxjs';
-import { IBasket } from '../../../../core/interfaces';
-import { Azot, Aksessuar } from '../../components';
+import { ProductCard } from '../../components';
 
 @Component({
   selector: 'app-products',
-  imports: [CommonModule, FormsModule, Azot, Aksessuar],
+  imports: [CommonModule, FormsModule, ProductCard],
   templateUrl: './products.html',
   styleUrl: './products.scss',
 })
@@ -26,24 +22,10 @@ export class Products implements OnInit, AfterViewInit {
   private telegram = inject(Telegram);
   private basketService = inject(Basket);
 
-  protected localBasket = signal<IBasket | undefined>(undefined);
-  protected quantity = this.basketService.quantity();
+  protected localBasket = this.basketService.localBasket$;
 
-  constructor() {
-    effect(() => {
-      const value = this.basket.value()!;
-      if (value) {
-        this.localBasket.set(value);
-      }
-    });
-  }
+  constructor() {}
   private orderDataIds!: { azot: number[]; aksessuari: number[] };
-  basket = resource({
-    loader: async () => {
-      const tg_id = await this.telegram.getUserLocalId();
-      return firstValueFrom(this.basketService.getBasket(tg_id));
-    },
-  });
 
   @ViewChild('allChecked') selectorAllCheked!: ElementRef;
   allChecked: boolean = false;
@@ -54,7 +36,6 @@ export class Products implements OnInit, AfterViewInit {
     productType: 'azot' | 'aksessuari';
     event: Event;
   }): void {
-    console.log(event);
     const isChecked = (event.event.target as HTMLInputElement).checked;
     if (isChecked) {
       this.selectedItems().push(event.id);
@@ -69,16 +50,24 @@ export class Products implements OnInit, AfterViewInit {
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.localBasket.subscribe((res) => {
+      console.log(res);
+    });
+  }
 
   toggleAllChecked() {
     if (this.allChecked) {
-      this.orderDataIds = {
-        azot: this.basket.value()!.data.azots.map((item) => item.product_id),
-        aksessuari: this.basket
-          .value()!
-          .data.accessories.map((item) => item.product_id),
-      };
+      this.localBasket.subscribe({
+        next: (res) => {
+          if (res) {
+            this.orderDataIds = {
+              azot: res.azots.map((item) => item.product_id),
+              aksessuari: res.accessories.map((item) => item.product_id),
+            };
+          }
+        },
+      });
       this.selectedItems.set([
         ...this.orderDataIds.azot,
         ...this.orderDataIds.aksessuari,

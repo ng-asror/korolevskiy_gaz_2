@@ -17,6 +17,7 @@ export interface IBasketAzot {
   price: string;
   quantity: number;
   product: IProduct;
+  price_type_id: number;
 }
 
 export interface IBasketAccessory {
@@ -48,4 +49,11 @@ export interface IProduct {
   created_at: string;
   updated_at: string;
   image_url: string;
+}
+
+export interface ILocalBasket {
+  azots: IBasketAzot[];
+  accessories: IBasketAccessory[];
+  total_count: number;
+  total_price: number;
 }

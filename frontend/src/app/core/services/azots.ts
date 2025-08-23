@@ -7,7 +7,7 @@ import { environment } from '../../../environments/environment.development';
 @Injectable({
   providedIn: 'root',
 })
-export class AzotsService {
+export class Azot {
   private endpoint: string = 'public/azots';
   constructor(private http: HttpClient) {}
 
@@ -31,10 +31,15 @@ export class AzotsService {
     return this.http.get<IAzot>(`${environment.url}/${this.endpoint}/${id}`);
   }
 
-  kupit(tg_id: string, product_id: string): Observable<any> {
+  kupit(
+    tg_id: string,
+    product_id: number,
+    price_type_id: number
+  ): Observable<any> {
     return this.http.post<any>(`${environment.url}/public/cart/add/azot`, {
       tg_id,
       product_id,
+      price_type_id,
     });
   }
 

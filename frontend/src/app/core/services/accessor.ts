@@ -27,7 +27,7 @@ export class Accessor {
     );
   }
 
-  minus(tg_id: string, product_id: number): Observable<any> {
+  minus(tg_id: string, product_id: string): Observable<any> {
     return this.http.post<any>(
       `${environment.url}/public/cart/minus/accessuary`,
       {

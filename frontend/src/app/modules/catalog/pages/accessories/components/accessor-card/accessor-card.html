@@ -9,10 +9,19 @@
 			<h4 class="text-[18px] font-[700]">{{accessor.price}}₽</h4>
 			<p class="text-[14px] text-black leading-[120%]">{{accessor.description}}</p>
 		</div>
-		<button type="button" (click)="kupit(accessor.id.toString())"
-			class="bg-gradient cursor-pointer w-full h-[40px] font-[500] gap-x-[5px] rounded-[5px] flex items-center justify-center">
-			<img src="svg/card-basket.svg" [alt]="accessor.title" width="19" height="19">
-			Купить
-		</button>
+		<ng-container *ngIf="counterService.isCounted(accessor.id) as cont">
+			<button type="button" (click)="kupit(accessor.id.toString())" *ngIf="!cont.counted; else counterBtns"
+				class="bg-gradient cursor-pointer w-full h-[40px] font-[500] gap-x-[5px] rounded-[5px] flex items-center justify-center">
+				<img src="svg/card-basket.svg" [alt]="accessor.title" width="19" height="19">
+				Купить
+			</button>
+			<ng-template #counterBtns>
+				<div class="flex bg-gradient w-full h-[40px] item-center gap-x-[5px]">
+					<button type="button">-</button>
+					<p class="block"> {{cont.quantity}}</p>
+					<button type="button">+</button>
+				</div>
+			</ng-template>
+		</ng-container>
 	</div>
 </div>

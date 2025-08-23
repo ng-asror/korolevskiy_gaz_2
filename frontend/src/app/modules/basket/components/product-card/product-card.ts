@@ -22,9 +22,8 @@ export class ProductCard implements OnInit {
   private accessorService = inject(Accessor);
   private azotService = inject(Azot);
   private telegram = inject(Telegram);
-  private basketService = inject(Basket);
 
-  private tg_id: string = '';
+  private tg_id = signal<string>('');
 
   // Inp & Otp
   getProduct = input.required<{
@@ -49,7 +48,7 @@ export class ProductCard implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    this.tg_id = await this.telegram.getUserLocalId();
+    this.tg_id.set(await this.telegram.getUserLocalId());
   }
   protected isChecked(product_id: number): boolean {
     return this.getSelectItems().includes(product_id);
@@ -64,7 +63,7 @@ export class ProductCard implements OnInit {
     this.azotToggle.emit(data);
   }
 
-  protected async minus(id: string): Promise<void> {
+  protected async minus(id: number): Promise<void> {
     this.productState.update((val) => {
       if (!val) return val;
       if (val.quantity <= 1) {
@@ -76,11 +75,11 @@ export class ProductCard implements OnInit {
       };
     });
     if (this.getProduct().productType === 'accessor')
-      await firstValueFrom(this.accessorService.minus(this.tg_id, String(id)));
+      await firstValueFrom(this.accessorService.minus(this.tg_id(), id));
     else if (this.getProduct().productType === 'azot') {
       const azot = this.getProduct().product as IBasketAzot;
       firstValueFrom(
-        this.azotService.minus(this.tg_id, id, azot.price_type_id)
+        this.azotService.minus(this.tg_id(), id, azot.price_type_id)
       );
     }
   }
@@ -93,11 +92,11 @@ export class ProductCard implements OnInit {
       };
     });
     if (this.getProduct().productType === 'accessor')
-      await firstValueFrom(this.accessorService.kupit(this.tg_id, String(id)));
+      await firstValueFrom(this.accessorService.kupit(this.tg_id(), id));
     else if (this.getProduct().productType === 'azot') {
       const azot = this.getProduct().product as IBasketAzot;
       firstValueFrom(
-        this.azotService.kupit(this.tg_id, id, azot.price_type_id)
+        this.azotService.kupit(this.tg_id(), id, azot.price_type_id)
       );
     }
   }

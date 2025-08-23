@@ -1,12 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, signal } from '@angular/core';
-import {
-  BehaviorSubject,
-  firstValueFrom,
-  Observable,
-  Subject,
-  tap,
-} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { IBasket, ILocalBasket } from '../interfaces';
 import { environment } from '../../../environments/environment.development';
 
@@ -15,7 +9,7 @@ import { environment } from '../../../environments/environment.development';
 })
 export class Basket {
   constructor(private http: HttpClient) {}
-  private localBasket = new BehaviorSubject<ILocalBasket | null>(null);
+  localBasket = new BehaviorSubject<ILocalBasket | null>(null);
   localBasket$ = this.localBasket.asObservable();
 
   getBasket(tg_id: string): Observable<IBasket> {

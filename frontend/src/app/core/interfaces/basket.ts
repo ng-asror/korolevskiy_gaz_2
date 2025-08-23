@@ -15,17 +15,46 @@ export interface IBasketAzot {
   name: string;
   price_type: string;
   price: string;
-  quantity: number;
-  product: IProduct;
   price_type_id: number;
+  quantity: number;
+  product: {
+    id: number;
+    title: string;
+    type: string;
+    image: string;
+    description: string;
+    country: string;
+    status: string;
+    created_at: string;
+    updated_at: string;
+    image_url: string;
+  };
+  price_types: {
+    id: number;
+    azot_id: number;
+    name: string;
+    price: string;
+    created_at: string;
+    updated_at: string;
+  }[];
 }
 
 export interface IBasketAccessory {
   product_id: number;
-  name: string | null;
+  name: null | string;
   price: string;
   quantity: number;
-  product: IProduct;
+  product: {
+    id: number;
+    title: string;
+    price: string;
+    image: string;
+    description: string;
+    status: string;
+    created_at: string;
+    updated_at: string;
+    image_url: string;
+  };
 }
 
 export interface IBasketService {

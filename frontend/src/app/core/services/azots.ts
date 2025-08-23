@@ -55,7 +55,6 @@ export class Azot {
         })
       );
   }
-
   minus(
     tg_id: string,
     product_id: number,

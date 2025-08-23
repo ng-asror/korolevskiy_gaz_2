@@ -9,7 +9,7 @@
 					[ngClass]="getProduct().productType === 'azot'? 'object-cover object-top':'object-contain object-center'">
 			</div>
 		</div>
-		<div>
+		<div class="w-full">
 			<span class="text-[12px] opacity-50" *ngIf="'price_type' in product">{{product.price_type}}, {{
 				product.product.type}}</span>
 			<h3 class="text-[14px] font-medium text-black">{{product.name}}</h3>

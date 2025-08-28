@@ -11,16 +11,14 @@ export class Counter {
       next: (basket) => {
         if (basket) {
           const item =
-            basket.azots.find((i) =>
-              i.price_type.includes(String(product_id))
-            ) || basket.accessories.find((i) => i.product_id === product_id);
+            basket.azots.find((i) => i.price_type_id === product_id) ||
+            basket.accessories.find((i) => i.product_id === product_id);
           if (item) {
             counter = { counted: true, quantity: item.quantity };
           }
         }
       },
     });
-    console.log(counter);
     return counter;
   }
 }

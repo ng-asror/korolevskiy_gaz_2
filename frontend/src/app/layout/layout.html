@@ -20,7 +20,8 @@
 			<img src="svg/basket.svg" alt="basket svg" width="21" height="21" />
 			<ng-container *ngIf="basket | async as getBasket">
 				<span *ngIf="getBasket.total_count !== 0"
-					class="absolute text-white p-[4px] bg-[red] top-[5px] right-[5px] text-[10px] rounded">{{getBasket.total_count}}</span>
+					class="absolute text-white p-[4px] bg-[red] top-[5px] right-[5px] text-[10px] rounded">{{getBasket.total_count
+					| uzPrice}}</span>
 			</ng-container>
 			<span class="text-[16px] font-normal text-black">Корзина</span>
 		</a>

@@ -12,9 +12,10 @@ import { NgClass, NgIf } from '@angular/common';
 import { Accessor, Basket, Telegram } from '../../../../core';
 import { Azot } from '../../../../core';
 import { firstValueFrom } from 'rxjs';
+import { NumberPipe } from '../../../../pipe';
 @Component({
   selector: 'app-product-card',
-  imports: [NgIf, NgClass],
+  imports: [NgIf, NgClass, NumberPipe],
   templateUrl: './product-card.html',
   styleUrl: './product-card.scss',
 })

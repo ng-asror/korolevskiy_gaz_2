@@ -19,12 +19,16 @@ export class App implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.telegram.init('#fecc68');
-    const isLoggedIn = await this.loginService.isLoggedIn();
-    if (!isLoggedIn) {
-      await this.auth();
+    const tg_id = await this.telegram.getTgUser().user.id;
+    try {
+      const res = await firstValueFrom(
+        this.loginService.userExists(tg_id.toString())
+      );
+      if (!res.exists) this.auth();
+    } catch (error) {
+      console.error(error);
     }
-    const tg_id = await this.telegram.getUserLocalId();
-    await firstValueFrom(this.basketService.getBasket(tg_id));
+    await firstValueFrom(this.basketService.getBasket(tg_id.toString()));
   }
 
   private async auth(): Promise<void> {

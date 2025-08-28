@@ -2,6 +2,7 @@ import { Component, inject, input, OnInit } from '@angular/core';
 import { Accessor, Counter, Telegram } from '../../../../../../core';
 import { firstValueFrom } from 'rxjs';
 import { NgIf } from '@angular/common';
+import { NumberPipe } from '../../../../../../pipe';
 export interface IAccessorOne {
   id: number;
   title: string;
@@ -15,7 +16,7 @@ export interface IAccessorOne {
 }
 @Component({
   selector: 'app-accessor-card',
-  imports: [NgIf],
+  imports: [NgIf, NumberPipe],
   templateUrl: './accessor-card.html',
   styleUrl: './accessor-card.scss',
 })

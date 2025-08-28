@@ -5,10 +5,19 @@ import { firstValueFrom } from 'rxjs';
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import { IAzot } from '../../../../core/interfaces/azot';
 import { Azot, Counter, Telegram } from '../../../../core';
+import { NumberPipe } from '../../../../pipe';
 
 @Component({
   selector: 'app-azots',
-  imports: [AzotBlock, RouterLink, NgForOf, AsyncPipe, RouterLinkActive, NgIf],
+  imports: [
+    AzotBlock,
+    RouterLink,
+    NgForOf,
+    AsyncPipe,
+    RouterLinkActive,
+    NgIf,
+    NumberPipe,
+  ],
   templateUrl: './azots.html',
   styleUrl: './azots.scss',
 })

@@ -29,32 +29,35 @@
 						(azotToggle)="onToggled($event)" class="w-full"
 						[product]="{product: accessor, productType: 'accessor'}"></app-product-card>
 				</div>
+				@let promocode = promocode$ | async;
 				<div class="bg-[#E9E4E0] py-[21px] px-[11px] rounded-[10px]">
 					<h1 class="text-[18px] text-black font-medium mb-[6px]">Промокод</h1>
 					<div class="rounded-[5px] bg-white grid grid-cols-[1fr_auto] gap-x-[4px] pr-[15px]">
-						<input type="text" class="w-full pl-[15px] outline-none text-black text-[12px] font-normal h-[30px]">
+						<input type="text" #promoInpEl
+							class="w-full pl-[15px] outline-none text-black text-[12px] font-normal h-[30px]"
+							(input)="promoInp(promoInpEl.value)">
 						<p class="txt-liner text-[12px] self-center max-w-[125px] text-right font-medium">
 							Скидка 1%
 						</p>
 					</div>
 				</div>
 				<div class="bg-[#E9E4E0] py-[21px] px-[11px] rounded-[10px]">
-					<h1 class="text-[18x] text-black font-medium mb-[6px]">Итого:</h1>
+					<h1 class="text-[18px] text-black font-medium mb-[6px]">Итого:</h1>
 					<p class="text-black/50 text-[14px] font-normal mb-[5px]">Кол-во товаров: <span
-							class="text-black">{{getBasket.total_count}}</span>
+							class="text-black">{{getBasket.total_count | uzPrice}}</span>
 					</p>
 					<p class="text-black/50 text-[16px] font-normal">
 						Скидка:
-						<span class="text-black">{{10}} ₽</span>
+						<span class="text-black">{{promocode? promocode.amount: 0| uzPrice}}₽</span>
 					</p>
 
 					<h2 class="text-black/50 text-[16px] font-bold mt-[10px] pt-[10px] border-t border-[#cbcbcb]">
 						Сумма:
 						<span class="text-black">
-							{{getBasket.total_price}} ₽
+							{{promocode? getBasket.total_price - promocode.amount: getBasket.total_price | uzPrice}}₽
 						</span>
-						<del class="ml-2 text-black/50 font-normal text-sm italic">
-							{{120289}} ₽
+						<del class="ml-2 text-black/50 font-normal text-sm italic" *ngIf="promocode">
+							{{getBasket.total_price | uzPrice}}₽
 						</del>
 					</h2>
 

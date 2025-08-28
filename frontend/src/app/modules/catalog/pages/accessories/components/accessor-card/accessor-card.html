@@ -6,7 +6,7 @@
 	<div class="bg-[#E9E4E0]">
 		<div class="p-[10px]">
 			<p class="text-[16px] text-black font-[500] leading-[120%]">{{accessor.title}}</p>
-			<h4 class="text-[18px] font-[700]">{{accessor.price}}₽</h4>
+			<h4 class="text-[18px] font-[700]">{{accessor.price | uzPrice}}₽</h4>
 			<p class="text-[14px] text-black leading-[120%]">{{accessor.description}}</p>
 		</div>
 		<ng-container *ngIf="counterService.isCounted(accessor.id) as cont">
@@ -21,7 +21,7 @@
 					<button type="button" class="flex items-center justify-center cursor-pointer h-full"
 						(click)="minus(accessor.id)">
 						<img src="svg/minus.svg" alt="minus icon" width="15" height="15"></button>
-					<p class="block text-center"> {{cont.quantity}}</p>
+					<p class="block text-center"> {{cont.quantity | uzPrice}}</p>
 					<button type="button" class="flex items-center justify-center cursor-pointer" (click)="kupit(accessor.id)">
 						<img src="svg/plus.svg" alt="plus icon" width="15" height="15">
 					</button>

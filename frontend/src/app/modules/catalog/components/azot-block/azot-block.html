@@ -11,12 +11,12 @@
 				<div class="grid grid-cols-3 gap-[10px]">
 					<div *ngFor="let item of azot.price_types">
 						<p class="leading-[100%] text-[#8A8A8A] text-[14px] mb-[5px]">{{item.name}}</p>
-						<h1 class="text-[16px] font-[500] leading-[100%]">{{item.price}} ₽</h1>
+						<h1 class="text-[16px] font-[500] leading-[100%]">{{item.price | uzPrice}}₽</h1>
 					</div>
 				</div>
 			</div>
 			<div class="w-[95px] shrink-[0] bg-red h-full">
-				<img src="images/ballon.png" [alt]="azot.title" class="block object-cover object-bottom aspect-[43/196]">
+				<img [src]="azot.image_url" [alt]="azot.title" class="block object-cover object-bottom aspect-[43/196]">
 			</div>
 		</div>
 		<div class="transition-all h-[0] px-[10px] overflow-hidden" [ngClass]="{'pb-[30px] py-[10px] h-auto': desc()}">

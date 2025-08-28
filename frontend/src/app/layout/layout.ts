@@ -2,10 +2,18 @@ import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Basket, Telegram } from '../core';
 import { AsyncPipe, NgIf } from '@angular/common';
+import { NumberPipe } from '../pipe';
 
 @Component({
   selector: 'app-layout',
-  imports: [RouterLink, RouterOutlet, RouterLinkActive, NgIf, AsyncPipe],
+  imports: [
+    RouterLink,
+    RouterOutlet,
+    RouterLinkActive,
+    NgIf,
+    AsyncPipe,
+    NumberPipe,
+  ],
   templateUrl: './layout.html',
   styleUrl: './layout.scss',
 })

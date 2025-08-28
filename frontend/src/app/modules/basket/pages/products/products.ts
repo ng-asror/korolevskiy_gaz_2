@@ -1,32 +1,43 @@
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   Component,
   ElementRef,
   inject,
-  OnInit,
   signal,
   ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Basket, Telegram } from '../../../../core';
 import { ProductCard } from '../../components';
+import { NumberPipe } from '../../../../pipe';
+import { debounceTime, firstValueFrom, Subject, tap } from 'rxjs';
 
 @Component({
   selector: 'app-products',
-  imports: [CommonModule, FormsModule, ProductCard],
+  imports: [CommonModule, ProductCard, NumberPipe, FormsModule, AsyncPipe],
   templateUrl: './products.html',
   styleUrl: './products.scss',
 })
-export class Products implements OnInit, AfterViewInit {
+export class Products implements AfterViewInit {
   private telegram = inject(Telegram);
   private basketService = inject(Basket);
-
+  private inputSubject = new Subject<string>();
   protected localBasket = this.basketService.localBasket$;
-
-  constructor() {}
+  protected promocode$ = this.basketService.promocode$;
+  constructor() {
+    this.inputSubject
+      .pipe(
+        debounceTime(3000),
+        tap((res) => {
+          this.basketService.promoFind(res);
+        })
+      )
+      .subscribe();
+  }
   private orderDataIds!: { azot: number[]; aksessuari: number[] };
 
+  protected inputVal: string = '';
   @ViewChild('allChecked') selectorAllCheked!: ElementRef;
   allChecked: boolean = false;
   selectedItems = signal<number[]>([]);
@@ -50,12 +61,6 @@ export class Products implements OnInit, AfterViewInit {
     }
   }
 
-  ngOnInit(): void {
-    this.localBasket.subscribe((res) => {
-      console.log(res);
-    });
-  }
-
   toggleAllChecked() {
     if (this.allChecked) {
       this.localBasket.subscribe({
@@ -72,7 +77,6 @@ export class Products implements OnInit, AfterViewInit {
         ...this.orderDataIds.azot,
         ...this.orderDataIds.aksessuari,
       ]);
-      console.log(this.selectedItems());
     } else {
       this.orderDataIds = {
         azot: [],
@@ -112,6 +116,9 @@ export class Products implements OnInit, AfterViewInit {
     //     );
     //   });
     // }
+  }
+  protected promoInp(value: string): void {
+    this.inputSubject.next(value);
   }
 
   ngAfterViewInit(): void {

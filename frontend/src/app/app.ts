@@ -19,7 +19,7 @@ export class App implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.telegram.init('#fecc68');
-    const tg_id = await this.telegram.getTgUser().user.id;
+    const tg_id = (await this.telegram.getTgUser()).user.id;
     try {
       const res = await firstValueFrom(
         this.loginService.userExists(tg_id.toString())
@@ -34,8 +34,8 @@ export class App implements OnInit {
   private async auth(): Promise<void> {
     firstValueFrom(
       this.loginService.login({
-        tg_id: String(this.telegram.getTgUser().user.id),
-        username: this.telegram.getTgUser().user.username,
+        tg_id: (await this.telegram.getTgUser()).user.id.toString(),
+        username: (await this.telegram.getTgUser()).user.username,
       })
     );
   }

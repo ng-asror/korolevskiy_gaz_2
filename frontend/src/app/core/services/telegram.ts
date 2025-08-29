@@ -7,8 +7,8 @@ import { ITgUser } from '../interfaces';
 export class Telegram {
   private tg = (window as any).Telegram.WebApp;
 
-  getTgUser(): ITgUser {
-    return this.tg.initDataUnsafe;
+  async getTgUser(): Promise<ITgUser> {
+    return await this.tg.initDataUnsafe;
   }
   async getUserLocalId(): Promise<string> {
     const id = await this.getCloudStorage('tg_id');

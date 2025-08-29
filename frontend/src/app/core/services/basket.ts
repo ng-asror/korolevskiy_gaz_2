@@ -1,6 +1,13 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, firstValueFrom, Observable, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  firstValueFrom,
+  Observable,
+  of,
+  tap,
+} from 'rxjs';
 import { IBasket, ILocalBasket, IPromocode, IPromoRes } from '../interfaces';
 import { environment } from '../../../environments/environment.development';
 
@@ -50,16 +57,19 @@ export class Basket {
       })
       .pipe(
         tap((res) => {
-          if (res.success) {
-            this.promo.next(res.data);
-          } else {
-            this.promo.next(null);
+          if (res.success) this.promo.next(res.data);
+        }),
+        catchError((error) => {
+          if (error instanceof HttpErrorResponse) {
+            if (error.status === 400 || error.status === 404)
+              this.promo.next(null);
           }
+          return of();
         })
       );
   }
 
-  public async promoFind(promocode: string): Promise<void> {
-    await firstValueFrom(this.promoCheck(promocode));
+  public promoFind(promocode: string): void {
+    this.promoCheck(promocode).subscribe();
   }
 }

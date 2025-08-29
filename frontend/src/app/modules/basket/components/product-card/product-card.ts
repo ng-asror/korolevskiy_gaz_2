@@ -19,12 +19,10 @@ import { NumberPipe } from '../../../../pipe';
   templateUrl: './product-card.html',
   styleUrl: './product-card.scss',
 })
-export class ProductCard implements OnInit {
+export class ProductCard {
   private accessorService = inject(Accessor);
   private azotService = inject(Azot);
   private telegram = inject(Telegram);
-
-  private tg_id = signal<string>('');
 
   // Inp & Otp
   getProduct = input.required<{
@@ -48,9 +46,6 @@ export class ProductCard implements OnInit {
     });
   }
 
-  async ngOnInit(): Promise<void> {
-    this.tg_id.set(await this.telegram.getUserLocalId());
-  }
   protected isChecked(product_id: number): boolean {
     return this.getSelectItems().includes(product_id);
   }
@@ -65,6 +60,7 @@ export class ProductCard implements OnInit {
   }
 
   protected async minus(id: number): Promise<void> {
+    const tg_id = (await this.telegram.getTgUser()).user.id.toString();
     this.productState.update((val) => {
       if (!val) return val;
       if (val.quantity <= 1) {
@@ -76,15 +72,14 @@ export class ProductCard implements OnInit {
       };
     });
     if (this.getProduct().productType === 'accessor')
-      await firstValueFrom(this.accessorService.minus(this.tg_id(), id));
+      await firstValueFrom(this.accessorService.minus(tg_id, id));
     else if (this.getProduct().productType === 'azot') {
       const azot = this.getProduct().product as IBasketAzot;
-      firstValueFrom(
-        this.azotService.minus(this.tg_id(), id, azot.price_type_id)
-      );
+      firstValueFrom(this.azotService.minus(tg_id, id, azot.price_type_id));
     }
   }
   protected async plus(id: number): Promise<void> {
+    const tg_id = (await this.telegram.getTgUser()).user.id.toString();
     this.productState.update((val) => {
       if (!val) return val;
       return {
@@ -93,12 +88,10 @@ export class ProductCard implements OnInit {
       };
     });
     if (this.getProduct().productType === 'accessor')
-      await firstValueFrom(this.accessorService.kupit(this.tg_id(), id));
+      await firstValueFrom(this.accessorService.kupit(tg_id, id));
     else if (this.getProduct().productType === 'azot') {
       const azot = this.getProduct().product as IBasketAzot;
-      firstValueFrom(
-        this.azotService.kupit(this.tg_id(), id, azot.price_type_id)
-      );
+      firstValueFrom(this.azotService.kupit(tg_id, id, azot.price_type_id));
     }
   }
 }

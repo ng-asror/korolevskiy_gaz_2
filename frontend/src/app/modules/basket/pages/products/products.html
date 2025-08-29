@@ -36,8 +36,8 @@
 						<input type="text" #promoInpEl
 							class="w-full pl-[15px] outline-none text-black text-[12px] font-normal h-[30px]"
 							(input)="promoInp(promoInpEl.value)">
-						<p class="txt-liner text-[12px] self-center max-w-[125px] text-right font-medium">
-							Скидка 1%
+						<p class="txt-liner text-[12px] self-center max-w-[125px] text-right font-medium" *ngIf="promocode">
+							Скидка {{promocode.amount / getBasket.total_price * 100 | number: '1.0-1'}}%
 						</p>
 					</div>
 				</div>
@@ -48,13 +48,13 @@
 					</p>
 					<p class="text-black/50 text-[16px] font-normal">
 						Скидка:
-						<span class="text-black">{{promocode? promocode.amount: 0| uzPrice}}₽</span>
+						<span class="text-black">{{(promocode? promocode.amount: 0) | uzPrice}}₽</span>
 					</p>
 
 					<h2 class="text-black/50 text-[16px] font-bold mt-[10px] pt-[10px] border-t border-[#cbcbcb]">
 						Сумма:
 						<span class="text-black">
-							{{promocode? getBasket.total_price - promocode.amount: getBasket.total_price | uzPrice}}₽
+							{{(promocode? getBasket.total_price - promocode.amount: getBasket.total_price )| uzPrice}}₽
 						</span>
 						<del class="ml-2 text-black/50 font-normal text-sm italic" *ngIf="promocode">
 							{{getBasket.total_price | uzPrice}}₽

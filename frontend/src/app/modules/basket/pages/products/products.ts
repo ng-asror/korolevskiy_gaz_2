@@ -28,7 +28,7 @@ export class Products implements AfterViewInit {
   constructor() {
     this.inputSubject
       .pipe(
-        debounceTime(3000),
+        debounceTime(1500),
         tap((res) => {
           this.basketService.promoFind(res);
         })

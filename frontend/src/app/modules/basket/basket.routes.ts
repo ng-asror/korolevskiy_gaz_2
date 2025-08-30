@@ -9,6 +9,10 @@ export const basketRoutes: Routes = [
         path: '',
         loadComponent: () => import('./pages').then((c) => c.Products),
       },
+      {
+        path: 'oformit',
+        loadComponent: () => import('./pages').then((c) => c.Oformit),
+      },
     ],
   },
 ];

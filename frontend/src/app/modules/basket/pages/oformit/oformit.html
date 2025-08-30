@@ -1,0 +1,29 @@
+<div class="flex items-center justify-between mb-[25px]">
+	<a routerLink="/" class="block">
+		<img src="svg/back.svg" alt="back svg" width="25" height="25" />
+	</a>
+	<h3 class="text-black text-[24px] leading-[normal] font-[700]">Оформление заказа</h3>
+	<div></div>
+</div>
+<ng-container *ngIf="decoration$ | async as decoration">
+	<section id="content" class="relative">
+		<div class="grid grid-cols-1 gap-y-[4px] mb-[46px]">
+			<div class="bg-[#E9E4E0] py-[21px] px-[11px] rounded-[10px]">
+				<div class="flex items-end justify-between pb-[15px] border-b-1 border-[#9B9B9B]">
+					<h1 class="text-black text-[18px] font-bold">Заказ №{{decoration.data.id}}</h1>
+					<p class="text-[#9B9B9B]">от 12.04.2025</p>
+				</div>
+				<div class="orders">
+					<div class="order-item">
+						<app-oformit-card *ngFor="let item of decoration.data.accessories"
+							[product]="{product: item, productType: 'accessor'}"></app-oformit-card>
+					</div>
+					<div class="order-item">
+						<app-oformit-card *ngFor="let item of decoration.data.azots"
+							[product]="{product: item, productType: 'azot'}"></app-oformit-card>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</ng-container>

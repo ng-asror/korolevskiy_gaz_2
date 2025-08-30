@@ -33,7 +33,7 @@
 				<div class="bg-[#E9E4E0] py-[21px] px-[11px] rounded-[10px]">
 					<h1 class="text-[18px] text-black font-medium mb-[6px]">Промокод</h1>
 					<div class="rounded-[5px] bg-white grid grid-cols-[1fr_auto] gap-x-[4px] pr-[15px]">
-						<input type="text" #promoInpEl
+						<input type="text" #promoInpEl [value]="promocode? promocode.promocode : ''"
 							class="w-full pl-[15px] outline-none text-black text-[12px] font-normal h-[30px]"
 							(input)="promoInp(promoInpEl.value)">
 						<p class="txt-liner text-[12px] self-center max-w-[125px] text-right font-medium" *ngIf="promocode">
@@ -64,7 +64,7 @@
 				</div>
 			</div>
 			<div class="w-full px-[10px] fixed left-0 right-0 bottom-[75px] max-w-[768px] mx-auto">
-				<button type="button"
+				<button type="button" (click)="createOrder()"
 					class="block w-full cursor-pointer text-black h-[46px] bg-gradient flex items-center justify-center rounded-[5px] text-[12px] font-medium">
 					Перейти к оформлению заказа</button>
 			</div>

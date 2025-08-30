@@ -8,27 +8,36 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Basket, Telegram } from '../../../../core';
+import { Basket, Order, Telegram } from '../../../../core';
 import { ProductCard } from '../../components';
 import { NumberPipe } from '../../../../pipe';
 import { debounceTime, firstValueFrom, Subject, tap } from 'rxjs';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-products',
-  imports: [CommonModule, ProductCard, NumberPipe, FormsModule, AsyncPipe],
+  imports: [
+    CommonModule,
+    ProductCard,
+    NumberPipe,
+    FormsModule,
+    AsyncPipe,
+    RouterLink,
+  ],
   templateUrl: './products.html',
   styleUrl: './products.scss',
 })
 export class Products implements AfterViewInit {
   private telegram = inject(Telegram);
   private basketService = inject(Basket);
+  private orderService = inject(Order);
   private inputSubject = new Subject<string>();
   protected localBasket = this.basketService.localBasket$;
   protected promocode$ = this.basketService.promocode$;
-  constructor() {
+  constructor(private router: Router) {
     this.inputSubject
       .pipe(
-        debounceTime(1500),
+        debounceTime(2000),
         tap((res) => {
           this.basketService.promoFind(res);
         })
@@ -116,6 +125,21 @@ export class Products implements AfterViewInit {
     //     );
     //   });
     // }
+  }
+
+  protected async createOrder(): Promise<void> {
+    const tg_id = (await this.telegram.getTgUser()).user.id;
+    const promocode = await firstValueFrom(this.promocode$);
+    await firstValueFrom(
+      this.orderService.createOrder(
+        tg_id.toString(),
+        promocode ? promocode.promocode : ''
+      )
+    ).then((res) => {
+      this.basketService.localBasket.next(null);
+      this.basketService.decorationNext(res);
+      this.router.navigate(['/basket/oformit']);
+    });
   }
   protected promoInp(value: string): void {
     this.inputSubject.next(value);

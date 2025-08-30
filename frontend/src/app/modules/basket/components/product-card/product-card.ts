@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { IBasketAccessory, IBasketAzot } from '../../../../core/interfaces';
 import { NgClass, NgIf } from '@angular/common';
-import { Accessor, Basket, Telegram } from '../../../../core';
+import { Accessor, Telegram } from '../../../../core';
 import { Azot } from '../../../../core';
 import { firstValueFrom } from 'rxjs';
 import { NumberPipe } from '../../../../pipe';

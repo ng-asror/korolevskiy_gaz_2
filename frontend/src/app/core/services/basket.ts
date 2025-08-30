@@ -1,14 +1,14 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, catchError, Observable, of, tap } from 'rxjs';
 import {
-  BehaviorSubject,
-  catchError,
-  firstValueFrom,
-  Observable,
-  of,
-  tap,
-} from 'rxjs';
-import { IBasket, ILocalBasket, IPromocode, IPromoRes } from '../interfaces';
+  IBasket,
+  IDecoration,
+  ILocalBasket,
+  IOrderCreateRes,
+  IPromocode,
+  IPromoRes,
+} from '../interfaces';
 import { environment } from '../../../environments/environment.development';
 
 @Injectable({
@@ -17,8 +17,11 @@ import { environment } from '../../../environments/environment.development';
 export class Basket {
   constructor(private http: HttpClient) {}
   localBasket = new BehaviorSubject<ILocalBasket | null>(null);
-  localBasket$ = this.localBasket.asObservable();
+  private decoration = new BehaviorSubject<IOrderCreateRes | null>(null);
   private promo = new BehaviorSubject<IPromocode | null>(null);
+
+  public localBasket$ = this.localBasket.asObservable();
+  public decoration$ = this.decoration.asObservable();
   public promocode$ = this.promo.asObservable();
 
   getBasket(tg_id: string): Observable<IBasket> {
@@ -69,7 +72,18 @@ export class Basket {
       );
   }
 
+  /**
+   *
+   * @param promocode
+   */
   public promoFind(promocode: string): void {
     this.promoCheck(promocode).subscribe();
+  }
+  /**
+   *
+   * @param data
+   */
+  public decorationNext(data: IOrderCreateRes | null): void {
+    this.decoration.next(data);
   }
 }
